@@ -4,6 +4,8 @@ Playground to test/validate some GitHub behaviours (e.g. actions)
 
 ## GoReleaser
 
+### Quick start
+
 Ref: https://goreleaser.com/quick-start/
 
 - **(1)** `go mod init github.com/sfmunoz/github-playground`
@@ -12,8 +14,13 @@ Ref: https://goreleaser.com/quick-start/
 - **(4)** `goreleaser check`
 - **(5)** `goreleaser release --snapshot --clean`
 
-Local build:
+### Devel
 
+Release local execution (no tags):
 ```
-./goreleaser-local.sh build --clean --snapshot
+./goreleaser-local.sh --verbose release --clean --snapshot
+```
+Build local execution (no tags):
+```
+./goreleaser-local.sh --verbose build --clean --snapshot
 ```
