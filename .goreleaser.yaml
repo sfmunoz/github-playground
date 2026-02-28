@@ -22,6 +22,15 @@ builds:
       - linux
     goarch:
       - amd64
+    hooks:
+      post:
+      - mkdir -p dist/rootfs/usr/bin dist/rootfs/usr/lib/extension-release.d dist/rootfs/usr/lib64
+      - cp {{ .Path }} dist/rootfs/usr/bin
+      - bash -c "echo 'ID=flatcar\nSYSEXT_LEVEL=1.0\nARCHITECTURE=x86-64' > dist/rootfs/usr/lib/extension-release.d/extension-release.i12e-flatcar"
+      #- cp /usr/bin/tmux /usr/bin/rclone dist/rootfs/usr/bin
+      #- bash -c "cp -a /usr/lib/x86_64-linux-gnu/libutempter.so* dist/rootfs/usr/lib64"
+      - mksquashfs dist/rootfs dist/rootfs.raw -noappend -comp zstd -all-root
+
 archives:
   - formats: [tar.gz]
     # this name template makes the OS and Arch compatible with the results of `uname`.
