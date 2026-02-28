@@ -1,8 +1,8 @@
 name: main
 
 on:
-  push:
-    tags: ["*"]
+  #push:
+  #  tags: ["*"]
   #push:
   #  branches: ["main"]
   #pull_request:
