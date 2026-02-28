@@ -32,7 +32,8 @@ builds:
       - mksquashfs dist/rootfs dist/rootfs.raw -noappend -comp zstd -all-root
 
 archives:
-  - formats: [tar.gz]
+  - id: default
+    formats: [tar.gz]
     # this name template makes the OS and Arch compatible with the results of `uname`.
     name_template: >-
       {{ .ProjectName }}_
@@ -45,6 +46,11 @@ archives:
     format_overrides:
       - goos: windows
         formats: [zip]
+    files:
+      - LICENSE
+      - README.md
+      - src: dist/rootfs.raw
+        dst: rootfs.raw
 
 changelog:
   sort: asc
