@@ -1,0 +1,28 @@
+name: main
+
+on:
+  push:
+    tags: ["*"]
+  #push:
+  #  branches: ["main"]
+  #pull_request:
+  #  branches: ["main"]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: actions/checkout
+        uses: actions/checkout@v6
+
+      - name: first step
+        run: echo Hello, world!
+
+      - name: second step
+        run: |
+          set -x
+          date
+          echo Add other actions to build,
+          echo test, and deploy your project.
+          date
