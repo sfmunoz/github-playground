@@ -15,4 +15,5 @@ mksquashfs dist/rootfs dist/rootfs.raw -noappend -comp zstd -all-root
 find dist -type f | sort | gzip -9 >dist/dist.txt.gz
 find /usr/ -type f | sort | gzip -9 >dist/usr.txt.gz
 dpkg -l | gzip -9 >dist/dpkg.txt.gz
+[ "$GITHUB_TOKEN" = "" ] && exit 0 # don't upload in local environment
 gh release upload "$TAG" dist/dist.txt.gz dist/usr.txt.gz dist/dpkg.txt.gz
