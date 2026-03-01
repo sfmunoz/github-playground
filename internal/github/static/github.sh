@@ -12,7 +12,9 @@ __EOF
 #cp /usr/bin/tmux /usr/bin/rclone dist/rootfs/usr/bin
 #bash -c "cp -a /usr/lib/x86_64-linux-gnu/libutempter.so* dist/rootfs/usr/lib64"
 mksquashfs dist/rootfs dist/rootfs.raw -noappend -comp zstd -all-root
-find dist -type f | sort >dist/dist.txt
-find /usr/ -type f | sort >dist/usr.txt
-gh release upload "$TAG" dist/dist.txt
-gh release upload "$TAG" dist/usr.txt
+find dist -type f | sort | gzip -9 >dist/dist.txt.gz
+find /usr/ -type f | sort | gzip -9 >dist/usr.txt.gz
+dpkg -l | gzip -9 >dist/dpkg.txt.gz
+gh release upload "$TAG" dist/dist.txt.gz
+gh release upload "$TAG" dist/usr.txt.gz
+gh release upload "$TAG" dist/dpkg.txt.gz
