@@ -30,7 +30,7 @@ func newGH() (*GH, error) {
 }
 
 func (g *GH) githubSh() error {
-	cmd := exec.Command("bash", "-s", g.Metadata.ProjectName)
+	cmd := exec.Command("bash", "-s", g.Metadata.ProjectName, g.Metadata.Tag)
 	cmd.Stdin = bytes.NewBuffer(githubSh)
 	bo, be, err := cmdutil.RunSimple(cmd)
 	if err != nil {
