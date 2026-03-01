@@ -2,7 +2,12 @@
 
 Playground to test/validate some GitHub behaviours (e.g. actions)
 
-## Tools
+## Releases
+
+> [!IMPORTANT]
+> [Releases](https://github.com/sfmunoz/github-playground/releases) of this project contain useful information about how releases work... so they can be used as a reference
+
+### Tools
 
 - **[https://goreleaser.com/](https://goreleaser.com/) + [https://github.com/goreleaser/goreleaser](https://github.com/goreleaser/goreleaser)**: release engineering, simplified. **Go**
 - [https://docs.github.com/en/rest/releases/releases](https://docs.github.com/en/rest/releases/releases): REST API endpoints for releases. Use the REST API to create, modify, and delete releases. **cURL/JavaScript/GitHub CLI**
@@ -35,9 +40,9 @@ jobs:
         run: gh release upload ${{ steps.release.outputs.tag_name }} ./artifact/some-build-artifact.zip
 ```
 
-## GoReleaser
+### GoReleaser
 
-### Quick start
+#### Quick start
 
 Ref: https://goreleaser.com/quick-start/
 
@@ -47,7 +52,7 @@ Ref: https://goreleaser.com/quick-start/
 - **(4)** `goreleaser check`
 - **(5)** `goreleaser release --snapshot --clean`
 
-### Devel
+#### Devel
 
 Release local execution (no tags):
 ```
