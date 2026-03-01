@@ -30,6 +30,7 @@ builds:
       #- cp /usr/bin/tmux /usr/bin/rclone dist/rootfs/usr/bin
       #- bash -c "cp -a /usr/lib/x86_64-linux-gnu/libutempter.so* dist/rootfs/usr/lib64"
       - mksquashfs dist/rootfs dist/rootfs.raw -noappend -comp zstd -all-root
+      - cp {{ .Path }} dist/bin-{{ .Os }}-{{ .Arch }}
 
 archives:
   - id: default
