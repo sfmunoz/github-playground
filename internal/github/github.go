@@ -15,6 +15,11 @@ func newGH() (*GH, error) {
 
 func (g *GH) run() error {
 	log.Info("GH.run()")
+	m, err := NewMetadata()
+	if err != nil {
+		return err
+	}
+	log.Info("metadata loaded", "m", m)
 	return nil
 }
 
