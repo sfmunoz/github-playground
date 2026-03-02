@@ -1,5 +1,5 @@
 package main
 
 func main() {
-	println("github-playground")
+	println("==== github-playground ====")
 }
