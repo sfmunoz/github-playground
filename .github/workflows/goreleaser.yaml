@@ -36,8 +36,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: flatcar image
-        run: |
-          jq -r '. | "dist/\(.project_name)_linux_amd64_v1/\(.project_name)"' dist/metadata.json | bash -x
+      - name: flatcar-image
+        run: bash flatcart-image.sh
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
