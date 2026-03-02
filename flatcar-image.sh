@@ -31,11 +31,11 @@ ID=flatcar
 SYSEXT_LEVEL=1.0
 ARCHITECTURE=x86-64
 __EOF
-#cp /usr/bin/tmux /usr/bin/rclone dist/rootfs/usr/bin
-#bash -c "cp -a /usr/lib/x86_64-linux-gnu/libutempter.so* dist/rootfs/usr/lib64"
+cp /usr/bin/tmux "${ROOTFS}/usr/bin/tmux"
+cp -a /usr/lib/x86_64-linux-gnu/libutempter.so* "${ROOTFS}/usr/lib64"
 mksquashfs "${ROOTFS}" "${ROOTFS}.raw" -noappend -comp zstd -all-root
-find dist -type f | sort | gzip -9 >"${DIST}/dist.txt.gz"
-find /usr/ -type f | sort | gzip -9 >"${DIST}/usr.txt.gz"
-dpkg -l | gzip -9 >"${DIST}/dpkg.txt.gz"
+#find dist -type f | sort | gzip -9 >"${DIST}/dist.txt.gz"
+#find /usr/ -type f | sort | gzip -9 >"${DIST}/usr.txt.gz"
+#dpkg -l | gzip -9 >"${DIST}/dpkg.txt.gz"
 # [ "$GITHUB_TOKEN" = "" ] && exit 0 # don't upload in local environment
 # gh release upload "$TAG" "${DIST}/dist.txt.gz" "${DIST}/usr.txt.gz" "${DIST}/dpkg.txt.gz"
