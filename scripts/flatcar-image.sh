@@ -10,6 +10,7 @@ function error_and_exit {
 DIST="dist"
 ROOTFS="${DIST}/rootfs"
 METADATA_JSON="${DIST}/metadata.json"
+REL_BODY="${DIST}/release_body.txt"
 
 [ -f "$METADATA_JSON" ] || error_and_exit "'${METADATA_JSON}' doesn't exist"
 
@@ -47,6 +48,12 @@ mksquashfs "${ROOTFS}" "${DIST}/${FLATCAR_RAW}" -noappend -comp zstd -all-root
 
 gh release upload "${TAG}" "${DIST}/${CHECKSUMS_TXT}" --clobber
 gh release upload "${TAG}" "${DIST}/${FLATCAR_RAW}"
+
+git tag -l --format='%(contents)' "$TAG" >"${REL_BODY}"
+echo >>"${REL_BODY}"
+echo >>"${REL_BODY}"
+gh release view --json body --template '{{ .body }}' "$TAG" >>"${REL_BODY}"
+gh release edit "$TAG" -F "${REL_BODY}"
 
 # find dist -type f | sort | gzip -9 >"${DIST}/dist.txt.gz"
 # find /usr/ -type f | sort | gzip -9 >"${DIST}/usr.txt.gz"
