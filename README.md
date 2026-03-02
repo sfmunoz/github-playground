@@ -56,9 +56,9 @@ Ref: https://goreleaser.com/quick-start/
 
 Release local execution (no tags):
 ```
-./goreleaser-local.sh --verbose release --clean --snapshot
+./scripts/goreleaser-local.sh --verbose release --clean --snapshot
 ```
 Build local execution (no tags):
 ```
-./goreleaser-local.sh --verbose build --clean --snapshot
+./scripts/goreleaser-local.sh --verbose build --clean --snapshot
 ```
