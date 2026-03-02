@@ -37,6 +37,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: flatcar-image
-        run: bash flatcar-image.sh
+        run: bash scripts/flatcar-image.sh
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
