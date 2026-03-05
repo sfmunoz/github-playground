@@ -2,6 +2,21 @@
 
 Playground to test/validate some GitHub behaviours (e.g. actions)
 
+## gh release
+
+Git log:
+```
+git log $(git describe --tags --abbrev=0)..HEAD --pretty=format:"%h %s"
+```
+gh release:
+```
+$ gh release create -h
+(...)
+  # Use automatically generated via GitHub Release Notes API release notes
+  $ gh release create v1.2.3 --generate-notes
+(...)
+```
+
 ## Releases
 
 > [!IMPORTANT]
