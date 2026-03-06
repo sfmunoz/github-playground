@@ -44,18 +44,23 @@ class Release(object):
             raise Exception("'{0}' command failed: {1}".format(" ".join(cmd),edata.decode().strip()))
         return odata.decode().strip().split("\n")
 
+    def gh_release(self,tag,notes):
+        cmd = ["gh","release","create",tag,"--notes-file","-","--verify-tag","--title",tag]
+        p = Popen(args=cmd,stdin=PIPE,stdout=PIPE,stderr=PIPE)
+        (odata,edata) = p.communicate(notes.encode())
+        if p.returncode != 0:
+            raise Exception("'{0}' command failed: {1}".format(" ".join(cmd),edata.decode().strip()))
+        return odata.decode().strip().split("\n")
+
     def run(self) -> None:
         ref = self.get_ref()
         tags = self.get_tags(ref)
         tag_msg = self.get_tag_msg(tags[0])
         log_lines = self.get_log(tags)
-        for line in tag_msg:
-            print(line)
-        print()
-        print("## Changelog")
-        print()
-        for line in log_lines:
-            print(line)
+        notes = tag_msg[:]
+        notes.extend(["","## Changelog",""])
+        notes.extend(log_lines)
+        self.gh_release(tags[0],"\n".join(notes))
 
 if __name__ == "__main__":
     Release().run()
