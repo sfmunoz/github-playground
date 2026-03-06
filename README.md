@@ -2,6 +2,9 @@
 
 Playground to test/validate some GitHub behaviours (e.g. actions)
 
+> [!IMPORTANT]
+> [Releases](https://github.com/sfmunoz/github-playground/releases) of this project contain useful information about how releases work... so they can be used as a reference
+
 ## gh release
 
 Git log:
@@ -17,12 +20,7 @@ $ gh release create -h
 (...)
 ```
 
-## Releases
-
-> [!IMPORTANT]
-> [Releases](https://github.com/sfmunoz/github-playground/releases) of this project contain useful information about how releases work... so they can be used as a reference
-
-### Tools
+## Tools
 
 - **[https://goreleaser.com/](https://goreleaser.com/) + [https://github.com/goreleaser/goreleaser](https://github.com/goreleaser/goreleaser)**: release engineering, simplified. **Go**
 - [https://docs.github.com/en/rest/releases/releases](https://docs.github.com/en/rest/releases/releases): REST API endpoints for releases. Use the REST API to create, modify, and delete releases. **cURL/JavaScript/GitHub CLI**
@@ -53,27 +51,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: gh release upload ${{ steps.release.outputs.tag_name }} ./artifact/some-build-artifact.zip
-```
-
-### GoReleaser
-
-#### Quick start
-
-Ref: https://goreleaser.com/quick-start/
-
-- **(1)** `go mod init github.com/sfmunoz/github-playground`
-- **(2)** create simple **main.go**
-- **(3)** `goreleaser init`
-- **(4)** `goreleaser check`
-- **(5)** `goreleaser release --snapshot --clean`
-
-#### Devel
-
-Release local execution (no tags):
-```
-./scripts/goreleaser-local.sh --verbose release --clean --snapshot
-```
-Build local execution (no tags):
-```
-./scripts/goreleaser-local.sh --verbose build --clean --snapshot
 ```
