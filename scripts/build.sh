@@ -37,4 +37,6 @@ mksquashfs "${ROOTFS}" "${DIST}/${FLATCAR_EXT_RAW}" -noappend -comp zstd -all-ro
 
 (cd "${DIST}" && sha256sum "${FLATCAR_EXT_RAW}") >"${DIST}/${FLATCAR_EXT_RAW}.sha256"
 
+[ "$RELEASE" = "1" ] || exit 0
+
 ./scripts/release.py "${DIST}/${FLATCAR_EXT_RAW}" "${DIST}/${FLATCAR_EXT_RAW}.sha256"
