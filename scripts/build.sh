@@ -37,6 +37,18 @@ mksquashfs "${ROOTFS}" "${DIST}/${FLATCAR_EXT_RAW}" -noappend -comp zstd -all-ro
 
 (cd "${DIST}" && sha256sum "${FLATCAR_EXT_RAW}") >"${DIST}/${FLATCAR_EXT_RAW}.sha256"
 
+{ set +x; } 2>/dev/null
+
 [ "$RELEASE" = "1" ] || exit 0
 
-./scripts/release.py "${DIST}/${FLATCAR_EXT_RAW}" "${DIST}/${FLATCAR_EXT_RAW}.sha256"
+set -x
+
+[ "$GITHUB_REF_NAME" = "" ] && error_and_exit "undefined 'GITHUB_REF_NAME'"
+echo "GITHUB_REF_NAME ..... '${GITHUB_REF_NAME}'"
+
+./scripts/release-notes.py |
+  gh release create "${GITHUB_REF_NAME}" \
+    --notes-file - \
+    --verify-tag \
+    "${DIST}/${FLATCAR_EXT_RAW}" \
+    "${DIST}/${FLATCAR_EXT_RAW}.sha256"

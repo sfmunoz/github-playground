@@ -3,7 +3,10 @@
 import os, sys
 from subprocess import Popen, PIPE
 
-class Release(object):
+class ReleaseNotes(object):
+    def __init__(self,fp):
+        self.__fp = fp
+
     def __get_ref(self):
         ref = os.getenv("GITHUB_REF_NAME")
         if ref is None:
@@ -41,16 +44,7 @@ class Release(object):
             raise Exception("'{0}' command failed: {1}".format(" ".join(cmd),edata.decode().strip()))
         return odata.decode().strip().split("\n")
 
-    def __gh_release(self,tag,notes):
-        cmd = ["gh","release","create",tag,"--notes-file","-","--verify-tag","--title",tag]
-        cmd.extend(sys.argv[1:])
-        p = Popen(args=cmd,stdin=PIPE,stdout=PIPE,stderr=PIPE)
-        (odata,edata) = p.communicate(notes.encode())
-        if p.returncode != 0:
-            raise Exception("'{0}' command failed: {1}".format(" ".join(cmd),edata.decode().strip()))
-        return odata.decode().strip().split("\n")
-
-    def run(self) -> None:
+    def run(self):
         ref = self.__get_ref()
         tags = self.__get_tags(ref)
         tag_msg = self.__get_tag_msg(tags[0])
@@ -58,7 +52,13 @@ class Release(object):
         notes = tag_msg[:]
         notes.extend(["","## Changelog",""])
         notes.extend(log_lines)
-        self.__gh_release(tags[0],"\n".join(notes))
+        self.__fp.write("\n".join(notes))
+
+def main():
+    fp = sys.stdout
+    if len(sys.argv) > 1:
+        fp = open(sys.argv[1],"w")
+    ReleaseNotes(fp).run()
 
 if __name__ == "__main__":
-    Release().run()
+    main()
