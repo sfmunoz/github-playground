@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import os
+import os, sys
 from subprocess import Popen, PIPE
 
 class Release(object):
@@ -43,6 +43,7 @@ class Release(object):
 
     def __gh_release(self,tag,notes):
         cmd = ["gh","release","create",tag,"--notes-file","-","--verify-tag","--title",tag]
+        cmd.extend(sys.argv[1:])
         p = Popen(args=cmd,stdin=PIPE,stdout=PIPE,stderr=PIPE)
         (odata,edata) = p.communicate(notes.encode())
         if p.returncode != 0:
