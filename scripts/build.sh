@@ -48,6 +48,7 @@ echo "GITHUB_REF_NAME ..... '${GITHUB_REF_NAME}'"
 
 ./scripts/release-notes.py |
   gh release create "${GITHUB_REF_NAME}" \
+    --title "${GITHUB_REF_NAME}" \
     --notes-file - \
     --verify-tag \
     "${DIST}/${FLATCAR_EXT_RAW}" \
