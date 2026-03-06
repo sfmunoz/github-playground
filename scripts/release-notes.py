@@ -37,6 +37,7 @@ class ReleaseNotes(object):
 
     def __get_log(self,tags):
         log_range = tags[0] if len(tags) < 2 else "{0}..{1}".format(tags[1],tags[0])
+        cmd = ["git","log",log_range,"--first-parent","--pretty=format:- %H %s (%ai)"]
         cmd = ["git","log",log_range,"--pretty=format:- %H %s (%ai)"]
         p = Popen(args=cmd,stdout=PIPE,stderr=PIPE)
         (odata,edata) = p.communicate()
