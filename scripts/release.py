@@ -8,7 +8,7 @@ class Release(object):
         pass
 
     def get_tags(self,ref):
-        cmd = ["git","tag","--sort=-creatordate","--format","%(refname:strip=2)"]
+        cmd = ["git","tag","--sort=-creatordate","--format=%(refname:strip=2)"]
         p = Popen(args=cmd,stdout=PIPE,stderr=PIPE)
         (odata,edata) = p.communicate()
         if p.returncode != 0:
@@ -24,12 +24,12 @@ class Release(object):
                 tags.append(line)
                 break
         if not found:
-            raise Exception("cannot find '%s' tag".format(ref))
+            raise Exception("cannot find '{0}' tag".format(ref))
         return tags
 
     def get_log(self,tags):
         log_range = tags[0] if len(tags) < 2 else "{0}..{1}".format(tags[1],tags[0])
-        cmd = ["git","log",log_range,'--pretty=format:"- %H %s (%ai)"']
+        cmd = ["git","log",log_range,"--pretty=format:- %H %s (%ai)"]
         p = Popen(args=cmd,stdout=PIPE,stderr=PIPE)
         (odata,edata) = p.communicate()
         if p.returncode != 0:
