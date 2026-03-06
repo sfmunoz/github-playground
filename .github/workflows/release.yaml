@@ -24,6 +24,17 @@ jobs:
 
       - name: build.sh
         run: bash scripts/build.sh
+
+      - name: release-notes.py
+        run: python3 scripts/release-notes.py dist/notes.md
+
+      - name: gh-release-create
+        run: |
+          set -x
+          gh release create "${GITHUB_REF_NAME}" \
+            --title "${GITHUB_REF_NAME}" \
+            --verify-tag \
+            --notes-file dist/notes.md \
+            dist/*.raw dist/*.sha256
         env:
-          RELEASE: 1
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
