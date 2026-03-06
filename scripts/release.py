@@ -27,6 +27,14 @@ class Release(object):
             raise Exception("cannot find '{0}' tag".format(ref))
         return tags
 
+    def get_tag_msg(self,tag):
+        cmd = ["git","for-each-ref","--format=%(contents)","refs/tags/{0}".format(tag)]
+        p = Popen(args=cmd,stdout=PIPE,stderr=PIPE)
+        (odata,edata) = p.communicate()
+        if p.returncode != 0:
+            raise Exception("'{0}' command failed: {1}".format(" ".join(cmd),edata.decode().strip()))
+        return odata.decode().strip().split("\n")
+
     def get_log(self,tags):
         log_range = tags[0] if len(tags) < 2 else "{0}..{1}".format(tags[1],tags[0])
         cmd = ["git","log",log_range,"--pretty=format:- %H %s (%ai)"]
@@ -34,15 +42,22 @@ class Release(object):
         (odata,edata) = p.communicate()
         if p.returncode != 0:
             raise Exception("'{0}' command failed: {1}".format(" ".join(cmd),edata.decode().strip()))
-        for line in odata.decode().strip().split("\n"):
-            print(line)
+        return odata.decode().strip().split("\n")
 
     def run(self) -> None:
         ref = os.getenv("GITHUB_REF_NAME")
         if ref is None:
             raise Exception("undefined 'GITHUB_REF_NAME'")
         tags = self.get_tags(ref)
-        self.get_log(tags)
+        tag_msg = self.get_tag_msg(tags[0])
+        log_lines = self.get_log(tags)
+        for line in tag_msg:
+            print(line)
+        print()
+        print("## Changelog")
+        print()
+        for line in log_lines:
+            print(line)
 
 if __name__ == "__main__":
     Release().run()
