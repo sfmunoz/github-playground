@@ -13,19 +13,13 @@ class Release(object):
         (odata,edata) = p.communicate()
         if p.returncode != 0:
             raise Exception("'{0}' command failed: {1}".format(" ".join(cmd),edata.decode().strip()))
-        tags = []
-        found = False
-        for line in odata.decode().strip().split("\n"):
-            if line == ref:
-                tags.append(line)
-                found = True
-                continue
-            if found:
-                tags.append(line)
-                break
-        if not found:
+        lines = odata.decode().strip().split("\n")
+        idx = lines.index(ref)
+        if idx < 0:
             raise Exception("cannot find '{0}' tag".format(ref))
-        return tags
+        if idx < len(lines)-1:
+            return [lines[idx],lines[idx+1]]
+        return [lines[idx]]
 
     def get_tag_msg(self,tag):
         cmd = ["git","for-each-ref","--format=%(contents)","refs/tags/{0}".format(tag)]
