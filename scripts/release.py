@@ -4,9 +4,6 @@ import os
 from subprocess import Popen, PIPE
 
 class Release(object):
-    def __init__(self) -> None:
-        pass
-
     def get_ref(self):
         ref = os.getenv("GITHUB_REF_NAME")
         if ref is None:
