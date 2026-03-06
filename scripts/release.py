@@ -11,7 +11,7 @@ class Release(object):
         return ref
 
     def __get_tags(self,ref):
-        cmd = ["git","tag","--sort=-creatordate","--format=%(refname:strip=2)"]
+        cmd = ["git","tag","--sort=creatordate","--format=%(refname:strip=2)"]
         p = Popen(args=cmd,stdout=PIPE,stderr=PIPE)
         (odata,edata) = p.communicate()
         if p.returncode != 0:
@@ -20,9 +20,9 @@ class Release(object):
         idx = lines.index(ref)
         if idx < 0:
             raise Exception("cannot find '{0}' tag".format(ref))
-        if idx < len(lines)-1:
-            return [lines[idx],lines[idx+1]]
-        return [lines[idx]]
+        if idx == 0:
+            return [lines[idx]]
+        return [lines[idx],lines[idx-1]]
 
     def __get_tag_msg(self,tag):
         cmd = ["git","for-each-ref","--format=%(contents)","refs/tags/{0}".format(tag)]
