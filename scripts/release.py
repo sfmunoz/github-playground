@@ -7,6 +7,12 @@ class Release(object):
     def __init__(self) -> None:
         pass
 
+    def get_ref(self):
+        ref = os.getenv("GITHUB_REF_NAME")
+        if ref is None:
+            raise Exception("undefined 'GITHUB_REF_NAME'")
+        return ref
+
     def get_tags(self,ref):
         cmd = ["git","tag","--sort=-creatordate","--format=%(refname:strip=2)"]
         p = Popen(args=cmd,stdout=PIPE,stderr=PIPE)
@@ -39,9 +45,7 @@ class Release(object):
         return odata.decode().strip().split("\n")
 
     def run(self) -> None:
-        ref = os.getenv("GITHUB_REF_NAME")
-        if ref is None:
-            raise Exception("undefined 'GITHUB_REF_NAME'")
+        ref = self.get_ref()
         tags = self.get_tags(ref)
         tag_msg = self.get_tag_msg(tags[0])
         log_lines = self.get_log(tags)
