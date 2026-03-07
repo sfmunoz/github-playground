@@ -38,6 +38,6 @@ jobs:
             --verify-tag \
             --notes-file dist/notes.md \
             dist/github-playground-flatcar.raw \
-            dist/github-playground-flatcar.sha256
+            dist/github-playground-flatcar.raw.sha256
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
